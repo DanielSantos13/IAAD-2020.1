@@ -195,7 +195,13 @@ class Funcs():
                 if not x_ing:
                     inserir_receita = """INSERT INTO tb_ingredients (id_recipes, ingredients) VALUES(%s, %s)""", (self.idRecipes, y_ing)
                     self.cursor.execute(*inserir_receita)
-                    self.conn.commit()        
+                    self.conn.commit()
+        else:
+            for (y_ing, x_ing) in zip(lista, lista_ingredientes):
+                self.altera_ingredientes = """UPDATE tb_ingredients SET ingredients=%s WHERE id_ingredients=%s """, (x_ing, y_ing)
+                self.cursor.execute(*self.altera_ingredientes)
+                self.conn.commit()
+
  
         ### ATUALIZAR TAGS ###
         lista=[]
@@ -227,6 +233,11 @@ class Funcs():
                     inserir_tag = """INSERT INTO tb_tags (id_recipes, tag) VALUES(%s, %s)""", (self.idRecipes, y_tag)
                     self.cursor.execute(*inserir_tag)
                     self.conn.commit()
+        else:
+            for (y_tag, x_tag) in zip(lista_tag, lista):
+                self.altera_tag = """UPDATE tb_tags SET tag=%s WHERE id_tag=%s """, (y_tag, x_tag)
+                self.cursor.execute(*self.altera_tag)
+                self.conn.commit()
  
         ### ATUALIZAR STEPS ###
         lista=[]
@@ -258,6 +269,11 @@ class Funcs():
                     inserir_step = """INSERT INTO tb_steps (id_recipes, step) VALUES(%s, %s)""", (self.idRecipes, y_step)
                     self.cursor.execute(*inserir_step)
                     self.conn.commit()
+        else:
+            for (y_step, x_step) in zip(lista_step, lista):
+                self.altera_step = """UPDATE tb_steps SET step=%s WHERE id_step=%s """, (y_step, x_step)
+                self.cursor.execute(*self.altera_step)
+                self.conn.commit()
  
         self.desconecta_bd()
         self.select_lista()
